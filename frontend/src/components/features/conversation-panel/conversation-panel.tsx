@@ -141,7 +141,7 @@ export function ConversationPanel({ onClose }: ConversationPanelProps) {
       className="w-full md:w-[400px] h-full border border-[#525252] bg-[#25272D] rounded-lg overflow-y-auto absolute custom-scrollbar-always"
     >
       {isFetching && conversations.length === 0 && (
-        <div className="px-2 py-2 space-y-2">
+        <div className="space-y-2">
           {Array.from({ length: 5 }).map((_, index) => (
             <ConversationCardSkeleton key={index} />
           ))}
