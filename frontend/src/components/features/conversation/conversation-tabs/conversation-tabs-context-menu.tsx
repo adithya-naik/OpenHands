@@ -56,7 +56,7 @@ export function ConversationTabsContextMenu({
   const handleTabClick = (tab: string) => {
     setUnpinnedTabs((prev) =>
       prev.includes(tab)
-        ? prev.filter((item) => item !== tab)
+        ? prev.filter((tabItem) => tabItem !== tab)
         : [...prev, tab],
     );
   };
