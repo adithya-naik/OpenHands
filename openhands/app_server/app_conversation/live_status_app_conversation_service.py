@@ -478,7 +478,15 @@ class LiveStatusAppConversationService(AppConversationServiceBase):
         """Wait for sandbox to start and return info."""
         # Get or create the sandbox
         if not task.request.sandbox_id:
-            sandbox = await self.sandbox_service.start_sandbox()
+            # Convert conversation_id to hex string if present
+            sandbox_id_str = (
+                task.request.conversation_id.hex
+                if task.request.conversation_id is not None
+                else None
+            )
+            sandbox = await self.sandbox_service.start_sandbox(
+                sandbox_id=sandbox_id_str
+            )
             task.sandbox_id = sandbox.id
         else:
             sandbox_info = await self.sandbox_service.get_sandbox(
@@ -1127,7 +1135,7 @@ class LiveStatusAppConversationService(AppConversationServiceBase):
         )
         if info is None:
             return None
-        for field_name in request.model_fields:
+        for field_name in AppConversationUpdateRequest.model_fields:
             value = getattr(request, field_name)
             setattr(info, field_name, value)
         info = await self.app_conversation_info_service.save_app_conversation_info(info)
